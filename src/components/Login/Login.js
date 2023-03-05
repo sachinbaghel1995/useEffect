@@ -16,10 +16,10 @@ return {value:'', isValid:false}
 
 const passwordReducer=(state,action)=>{
   if(action.type==='USER_INPUT'){
-    return {value:action.val, isValid:action.val.includes('@')}
+    return {value:action.val, isValid:action.val}
   }
   if(action.type==='INPUT_BLUR'){
-    return {value:state.value, isValid:state.value.includes('@')}
+    return {value:state.value, isValid:state.value}
   }
 return {value:'', isValid:false}
 }
@@ -61,7 +61,7 @@ const Login = (props) => {
     dispatchEmail({type:'USER_INPUT', val:event.target.value})
 
     setFormIsValid(
-      emailState.isValid && event.target.value.trim().length > 6 && enteredCollege.trim().length > 0
+      emailState.isValid && event.target.value.trim().length > 6 
     );
   
   };
@@ -70,15 +70,11 @@ const Login = (props) => {
     dispatchPassword({type:'USER_INPUT', val:event.target.value})
 
     setFormIsValid(
-      passwordState.isValid && event.target.value.trim().length > 6 && enteredCollege.trim().length > 0
+      passwordState.isValid && event.target.value.trim().length > 6
     );
    
   };
-  const collegeChangeHandler = (event) => {
-    setEnteredCollege(event.target.value);
-
-   
-  }
+ 
   const validateEmailHandler = () => {
    dispatchEmail({type:"INPUT_BLUR"})
   };
@@ -86,13 +82,11 @@ const Login = (props) => {
   const validatePasswordHandler = () => {
     dispatchEmail({type:"INPUT_BLUR"});
   };
-  const validateCollegeHandler = () => {
-    setCollegeIsValid(enteredCollege.trim().length > 0);
-  }
+
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value,enteredCollege);
+    props.onLogin(emailState.value, passwordState.value);
   };
 
   return (
@@ -127,20 +121,8 @@ const Login = (props) => {
           />
         </div>
 
-        <div
-          className={`${classes.control} ${
-            collegeIsValid === false ? classes.invalid : ''
-          }`}
-        >
-          <label htmlFor="college">College Name</label>
-          <input
-            type="text"
-            id="college"
-            value={enteredCollege}
-            onChange={collegeChangeHandler}
-            onBlur={validateCollegeHandler}
-          />
-        </div>
+       
+
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login
